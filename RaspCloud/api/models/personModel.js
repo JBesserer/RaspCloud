@@ -3,6 +3,9 @@ const _ = require('underscore');
 const path = require('path');
 const fs = require('fs');
 
+const db = require('../dbconnect/dbconnect');
+let dbconnect = new db();
+
 const fakeDBPath = path.join(__dirname, '..', '..', 'resources', 'fakeDB');
 
 class personModel {
@@ -26,14 +29,14 @@ class personModel {
 				return;
 			}
 
-			let jsonData = JSON.stringify(data);
+			let jsonData = JSON.parse(data);
 			let person = new personModel(jsonData.firstName, jsonData.lastName);
 			person.id = jsonData.id;
 			callback(null, person);
 		});
 	}
 
-	static delete(personID, callback) {
+	static deletePerson(personID, callback) {
 		let filepath = path.join(fakeDBPath, personID + '.json');
 		fs.unlink(filepath, (err, data) => {
 			if (err && err.code === 'ENOENT') {
@@ -63,6 +66,23 @@ class personModel {
 				callback(new Error(`Error while saving to file : ${err.message}`));
 				return;
 			}
+			//Connection to MySQL DB and Insertion
+			let personInsert = this;
+            dbconnect.con.connect(function(err){
+				if(err) {
+					callback(new Error('Error while connecting to DB'));
+					return;
+				}
+				console.log("Connected!");
+				let sql ="INSERT INTO person (id, firstName, lastName) VALUES ('"+personInsert.id+"','"+personInsert.firstName+"','"+personInsert.lastName+"')";
+                dbconnect.con.query(sql, function(err,result){
+					if(err){
+                        callback(new Error('Error while inserting person table'));
+                        return;
+                    }
+                    console.log("1 record inserted");
+				});
+			});
 			callback();
 		});
 	}

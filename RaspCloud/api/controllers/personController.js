@@ -27,6 +27,7 @@ exports.modify_person = (req, res, next) => {
 	personModel.find(personID, (err, person) => {
 		person.firstName = req.body.firstName;
 		person.lastName = req.body.lastName;
+
 		person.save((err) => {
 			if (err) {
 				next(err);
@@ -43,5 +44,11 @@ exports.delete_person = (req, res, next) => {
 		next(new Error(`Expected first parameter to be a number but got : ${req.params.personID}`));
 		return;
 	}
-	res.json({});
+	personModel.deletePerson(personID,(err)=>{
+		if(err){
+			next(err);
+			return;
+		}
+		res.json({});
+	});
 };

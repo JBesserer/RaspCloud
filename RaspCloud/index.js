@@ -29,9 +29,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Setup middlewares
 app.use(randomFail);
 
+//Routes linked to the app
 paintingRoutes(app);
 personRoutes(app);
 
+//Home page
 app.get('/', (req, res) => {
 	res.render('index');
 });
@@ -48,4 +50,4 @@ app.use((err, req, res, next) => {
 
 app.listen(port);
 
-console.log('AJAX exercises server started on: ' + port);
+console.log('RaspCloud server started on: ' + port);

@@ -33,7 +33,7 @@ class paintingModel {
 				return;
 			}
 			if (!dataLines[partID]) {
-				callback(new Error(`The paiting part with ID ${partID} does not exist!`));
+				callback(new Error(`The painting part with ID ${partID} does not exist!`));
 				return;
 			}
 			let dataToSend = dataLines[partID];
