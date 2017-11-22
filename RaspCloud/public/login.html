@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
+    <script type="application/javascript">
+        // ---------------------
+        // login form stuff
+        // ---------------------
+        $(document).ready(function() {
+            let myForm = $('form#loginForm');
+
+            myForm.find('#submit').click(() => {
+                let loginData = {
+                    email: myForm.find('#email')[0].value,
+                    password: myForm.find('#password')[0].value
+                };
+                $.ajax({
+                type:'POST',
+                url:'/login',
+                dataType:'json',
+                data: loginData,
+                success: (data) => {
+                    console.info(data);
+                },
+                error: printError
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="personDiv">
+        <form id="loginForm">
+            <h4>Person add form</h4>
+            <label for="email">Email:</label><input id="email" type="text" /><br />
+            <label for="password">Password:</label><input id="password" type="password" /><br />
+            <button id="submit" type="button">Submit</button>
+        </form>
+    </div>
+</body>
+</html>
