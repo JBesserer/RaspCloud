@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Super exercice</title>
+	<style>
+		#paintingPre {
+			font-size: smaller;
+		}
+
+		.getMorePaint {
+			padding: 0;
+		}
+
+		label {
+			width: 100px;
+			display: inline-block;
+		}
+	</style>
+	<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
+	<script type="application/javascript">
+
+		let createButtonsForPainting = (paintingMetadata) => {
+			let _testTemplateString = `<button class="getMorePaint" data-painting_id="<%= painting_id %>" data-painting_part_id="<%= id %>">🎨</button>\n`;
+			let newDom = '';
+			let templateFn = _.template(_testTemplateString);
+			_.times(Math.floor(paintingMetadata.nbLines / 4), (idx) => {
+				newDom += templateFn({
+					painting_id : paintingMetadata.paintingID,
+					id : idx * 4
+				});
+			});
+			$('#start').hide();
+			$('pre#paintingPre').html(newDom);
+			$('.getMorePaint').click((event) => {
+				let buttonEl = $(event.target);
+				let paintingID = buttonEl.data('painting_id');
+				let paintingPartID = buttonEl.data('painting_part_id');
+				window.location.assign(`/painting/${paintingID}/${paintingPartID}`);
+			});
+		};
+
+		$(document).ready(function() {
+			$('#start').click(() => {
+				window.location.assign('/painting');
+			});
+		});
+
+		// ---------------------
+		// Person form stuff
+		// ---------------------
+		$(document).ready(function() {
+			let myForm = $('form#personForm');
+
+			myForm.find('#delete').click(() => {
+				window.location.assign('/person/' + myForm.find('#id')[0].value);
+			});
+
+			myForm.find('#submitThis').click(() => {
+				myForm.submit();
+			});
+		});
+	</script>
+</head>
+<body>
+<h1>AJAX...</h1>
+<p>
+	<button id="start">Start</button>
+</p>
+<pre id="paintingPre"></pre>
+<hr>
+<div id="personDiv">
+	<form id="personForm" action="" method="post">
+		<h4>Person add form</h4>
+		<label for="id">ID:</label><input id="id" type="text" disabled="disabled" /><br />
+		<label for="firstName">First name:</label><input id="firstName" type="text" /><br />
+		<label for="lastName">Last name:</label><input id="lastName" type="text" /><br />
+		<button id="submitThis" type="button">Submit</button>
+		<button id="delete" type="button" hidden>☢ Delete ☢</button>
+	</form>
+</div>
+</body>
+</html>
