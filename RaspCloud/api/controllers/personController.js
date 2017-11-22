@@ -12,8 +12,8 @@ exports.add_person = (req, res, next) => {
 			return;
 		}
 		res.json({
-			id : person.id
-		});
+            id : person.id
+        });
 	});
 };
 

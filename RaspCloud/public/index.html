@@ -117,7 +117,7 @@
                         url:'/person',
                         dataType:'json',
                         data: personData,
-                        success: (data) => {
+                        success: (data)=> {
                             myForm.find('#id').val(data.id);
                             myForm.find('h4').html('Person edit form');
                             myForm.find('#delete').show();

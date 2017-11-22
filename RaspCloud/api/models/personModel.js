@@ -68,7 +68,7 @@ class personModel {
 			}
 			//Connection to MySQL DB and Insertion
 			let personInsert = this;
-            dbconnect.con.connect(function(err){
+            dbconnect.con.connect((err)=>{
 				if(err) {
 					callback(new Error('Error while connecting to DB'));
 					return;
@@ -81,6 +81,7 @@ class personModel {
                         return;
                     }
                     console.log("1 record inserted");
+					callback(null,result);
 				});
 			});
 			callback();

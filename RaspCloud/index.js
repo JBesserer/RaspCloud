@@ -4,10 +4,11 @@ const _ = require('underscore');
 const express = require('express');
 const cons = require('consolidate');
 const bodyParser = require('body-parser');
+const session = require('client-sessions');
 
-const randomFail = require('./middlewares/randomFail');
 const paintingRoutes = require('./api/routes/paintingRoute');
 const personRoutes = require('./api/routes/personRoutes');
+const loginRoutes = require('./api/routes/loginRoute');
 
 let app = express();
 let port = process.env.PORT || 3000;
@@ -27,15 +28,21 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Setup middlewares
-app.use(randomFail);
+app.use(session({
+    cookieName: 'session',
+    secret: 'random_string_goes_here',
+    duration: 30 * 60 * 1000,
+    activeDuration: 5 * 60 * 1000,
+}));
 
 //Routes linked to the app
 paintingRoutes(app);
 personRoutes(app);
+loginRoutes(app);
 
 //Home page
 app.get('/', (req, res) => {
-	res.render('index');
+	res.render('login');
 });
 
 // Error handling
