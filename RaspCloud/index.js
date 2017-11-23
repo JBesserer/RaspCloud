@@ -2,16 +2,20 @@
 const path = require('path');
 const _ = require('underscore');
 const express = require('express');
+const session = require('express-session');
 const cons = require('consolidate');
 const bodyParser = require('body-parser');
-const session = require('client-sessions');
 
 const paintingRoutes = require('./api/routes/paintingRoute');
 const personRoutes = require('./api/routes/personRoutes');
 const loginRoutes = require('./api/routes/loginRoute');
+const pageRouting = require('./api/routes/pageRouting');
 
 let app = express();
 let port = process.env.PORT || 3000;
+// parse application/json and form data
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Setup basic template engine
 app.engine('html', cons.underscore);
@@ -23,22 +27,19 @@ _.templateSettings = {
 	escape : /<<%-([\s\S]+?)%>>/g
 };
 
-// parse application/json and form data
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
-// Setup middlewares
 app.use(session({
-    cookieName: 'session',
-    secret: 'random_string_goes_here',
-    duration: 30 * 60 * 1000,
-    activeDuration: 5 * 60 * 1000,
+	secret:"fajdgdoiajt894ay492",
+	resave: false,
+	saveUninitialized: true
 }));
 
 //Routes linked to the app
 paintingRoutes(app);
 personRoutes(app);
 loginRoutes(app);
+pageRouting(app);
+
 
 //Home page
 app.get('/', (req, res) => {

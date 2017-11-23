@@ -9,7 +9,7 @@
         // ---------------------
         // login form stuff
         // ---------------------
-        $(document).ready(function() {
+       /* $(document).ready(function() {
             let myForm = $('form#loginForm');
 
             myForm.find('#submit').click(() => {
@@ -25,18 +25,20 @@
                 success: (data) => {
                     console.info(data);
                 },
-                error: printError
+                error: (trace)=>{
+                    console.log(trace);
+                }
                 });
             });
-        });
+        });*/
     </script>
 </head>
 <body>
     <div id="personDiv">
-        <form id="loginForm">
-            <h4>Person add form</h4>
-            <label for="email">Email:</label><input id="email" type="text" /><br />
-            <label for="password">Password:</label><input id="password" type="password" /><br />
+        <form action="/login" method="post">
+            <h4>Login</h4>
+            <label for="email">Email:</label><input id="email" name="email" type="text" /><br />
+            <label for="password">Password:</label><input id="password" name="password" type="password" /><br />
             <button id="submit" type="button">Submit</button>
         </form>
     </div>

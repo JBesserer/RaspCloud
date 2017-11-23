@@ -4,11 +4,12 @@ const mysql = require('mysql');
 
 class dbconnect {
     constructor() {
-        this.con = mysql.createConnection({
-            host: "localhost",
-            user: "root",
-            password: "",
-            database: "nodecloud"
+        this.con = mysql.createPool({
+            connectionLimit : 10,
+            host            : 'localhost',
+            user            : 'root',
+            password        : '',
+            database: 'nodecloud'
         });
     }
 }
