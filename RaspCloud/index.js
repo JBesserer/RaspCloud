@@ -6,13 +6,12 @@ const session = require('express-session');
 const cons = require('consolidate');
 const bodyParser = require('body-parser');
 
-const paintingRoutes = require('./api/routes/paintingRoute');
-const personRoutes = require('./api/routes/personRoutes');
 const loginRoutes = require('./api/routes/loginRoute');
 const pageRouting = require('./api/routes/pageRouting');
 
 let app = express();
 let port = process.env.PORT || 3000;
+
 // parse application/json and form data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -27,19 +26,15 @@ _.templateSettings = {
 	escape : /<<%-([\s\S]+?)%>>/g
 };
 
-
 app.use(session({
-	secret:"fajdgdoiajt894ay492",
-	resave: false,
-	saveUninitialized: true
+    secret:"fajdgdoiajt894ay492",
+    resave: false,
+    saveUninitialized: true
 }));
 
 //Routes linked to the app
-paintingRoutes(app);
-personRoutes(app);
 loginRoutes(app);
 pageRouting(app);
-
 
 //Home page
 app.get('/', (req, res) => {
