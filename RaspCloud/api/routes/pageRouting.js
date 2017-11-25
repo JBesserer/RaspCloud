@@ -8,6 +8,14 @@ module.exports = (app) => {
         }
     });
 
+    app.route('/header').get((req,res)=>{
+        if(!req.session.user) {
+            res.render('header');
+        }else{
+            res.render('header', { type_user: req.session.user.fk_type_user});
+        }
+    });
+
     app.route('/logout').get((req,res)=>{
         req.session.destroy();
         console.log('Logging out...');

@@ -3,10 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
+    <script>
+        $(document).ready(function() {
+            $.get("/header", function(data) {
+                $("#header").html(data);
+            });
+        });
+    </script>
 </head>
 <body>
+    <div id="header"></div>
     <p>DASHBOOOOOOAORRRRRRDDDD BOOOOOOIIIIIIISSSSSS. KNACK 2 BABEEEEEEHHHHH!</p>
     <p>Welcome to the jam <<%= firstName %>> <<%= lastName %>> Type User:<<%= type_user%>></p>
-    <a href="/logout">Log out</a>
 </body>
 </html>

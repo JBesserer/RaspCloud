@@ -51,6 +51,9 @@ app.use((err, req, res, next) => {
 	}
 });
 
+// Static files
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.listen(port);
 
 console.log('RaspCloud server started on: ' + port);
