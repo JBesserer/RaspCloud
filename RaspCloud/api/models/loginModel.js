@@ -1,7 +1,7 @@
 const os = require('os');
 const _ = require('underscore');
 
-const db = require('../dbconnect/dbconnect');
+const pool  = require('../dbconnect/dbconnect');
 
 
 class loginModel {
@@ -11,11 +11,10 @@ class loginModel {
     }
 
     authentification(callback) {
-        let dbconnect = new db();
 
-        console.log("Connected!");
+        console.log("Connected to the database!");
         let sql = "SELECT * FROM user WHERE email=?";
-        dbconnect.con.query(sql, [this.email], (err, results) => {
+        pool.query(sql, [this.email], (err, results) => {
             if (err) {
                 callback(new Error('Error while selecting in user table'));
 

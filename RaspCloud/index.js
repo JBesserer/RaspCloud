@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 
 const loginRoutes = require('./api/routes/loginRoute');
 const pageRouting = require('./api/routes/pageRouting');
+const uploadRouting = require('./api/routes/uploadRoute');
 
 let app = express();
 let port = process.env.PORT || 3000;
@@ -26,6 +27,9 @@ _.templateSettings = {
 	escape : /<<%-([\s\S]+?)%>>/g
 };
 
+app.use(express.static('public'));
+
+
 app.use(session({
     secret:"fajdgdoiajt894ay492",
     resave: false,
@@ -35,6 +39,7 @@ app.use(session({
 //Routes linked to the app
 loginRoutes(app);
 pageRouting(app);
+uploadRouting(app);
 
 //Home page
 app.get('/', (req, res) => {

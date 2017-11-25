@@ -8,6 +8,15 @@ module.exports = (app) => {
         }
     });
 
+    app.route('/header').get((req,res)=>{
+        if(typeof(req.session.user.fk_type_user) !== 'undefined'){
+            console.log('type user is lit!');
+            res.render('header', { type_user: req.session.user.fk_type_user});
+        }else{
+            res.render('header', { type_user: null});
+        }
+    });
+
     app.route('/logout').get((req,res)=>{
         req.session.destroy();
         console.log('Logging out...');
