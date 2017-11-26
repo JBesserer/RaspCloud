@@ -45,7 +45,7 @@ input {
     border-radius: 15px;
     background: #BC1142;
 }
-.center {
+.centerDiv {
     display: flex;
     flex-flow: column wrap;
     align-items: center;
@@ -55,6 +55,27 @@ input {
 }
 .btnLogin {
     margin-left: 110px;
+    width: 150px;
+    height: 30px;
+    border-radius: 4px;
+    background: #BC1142;
+}
+.btnProfil {
+    margin-left: 25px;
+    width: 150px;
+    height: 30px;
+    border-radius: 4px;
+    background: #BC1142;
+}
+.tableAdmin {
+    width: 80%;
+}
+ table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 15px;
+}
+.btnAdmin {
     width: 150px;
     height: 30px;
     border-radius: 4px;

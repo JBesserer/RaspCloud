@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
+    <script>
+        $(document).ready(function() {
+            $.get("/header", function(data) {
+                $("#header").html(data);
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="header"></div>
+<div class="centerDiv">
+    <h1>Gestion des utilisateurs</h1><br><br>
+
+    <table class="tableAdmin">
+        <tr>
+            <th>Courriel</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Statut</th>
+            <th>Stockage</th>
+        </tr>
+        <tr>
+            <td>Test</td>
+            <td>Test</td>
+            <td>Test</td>
+            <td>Test</td>
+            <td>Test</td>
+        </tr>
+    </table>
+</div><br>
+    <button id="adduser" class="btnAdmin" type="button" style="margin-left: 10%;" onclick="location.href='/adduser'">Ajouter</button>
+    <button id="modifyuser" class="btnAdmin" type="button">Modifier</button>
+    <button id="deleteuser" class="btnAdmin" type="button">Supprimer</button>
+</body>
+</html>
