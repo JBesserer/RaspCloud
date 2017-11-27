@@ -29,6 +29,11 @@ module.exports = (app) => {
             res.redirect('/');
         }else{
             res.render('profil', { firstName: req.session.user.firstName ,lastName: req.session.user.lastName, type_user: req.session.user.fk_type_user});
+        if(typeof(req.session.user.fk_type_user) !== 'undefined'){
+            console.log('type user is lit!');
+            res.render('header', { type_user: req.session.user.fk_type_user});
+        }else{
+            res.render('header', { type_user: null});
         }
     });
 
