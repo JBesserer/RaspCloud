@@ -21,7 +21,9 @@ exports.upload_file = (req, res, next) => {
                 filepath = "/public/uploads/"+rightNow+"_"+files.file.name;
                 console.log(newpath);
             }
-
+            else{
+                filepath = "/public/uploads/"+files.file.name;
+            }
             fs.rename(oldpath, newpath, (err) => {
                 if (err) throw err;
                 let fileToUpload = new uploadModel(filepath,req.session.user.pk_user);

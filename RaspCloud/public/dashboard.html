@@ -19,7 +19,7 @@
         // "myDropzone" is the camelized version of the HTML element's ID
         Dropzone.options.myDropzone = {
             paramName: "file", // The name that will be used to transfer the file
-            parallelUploads: 10,
+            parallelUploads: 2,
             addRemoveLinks: true,
             thumbnailWidth: "45",
             thumbnailHeight: "45",
@@ -30,7 +30,6 @@
                     this.removeFile(file);
                     this.emit("addedfile", file);
                     this.emit("complete", file);
-                    this.emit("thumbnail", file, "/img/file_thumbnail.png");
                     this.files.push(file);
                 });
             }
