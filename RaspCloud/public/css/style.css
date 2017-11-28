@@ -17,14 +17,14 @@ input {
 }
 .title {
     position: relative;
-    bottom: 15px;
+    bottom: 10px;
     margin-left: 10px;
 }
 .admin button {
     margin-top: 5px;
     float: right;
     width: 100px;
-    height: 40px;
+    height: 30px;
     border-radius: 15px;
     color: white;
     background: black;
@@ -33,7 +33,7 @@ input {
     margin-top: 5px;
     float: right;
     width: 100px;
-    height: 40px;
+    height: 30px;
     border-radius: 15px;
     background: #75A928;
 }
@@ -41,7 +41,7 @@ input {
     margin-top: 5px;
     float: right;
     width: 100px;
-    height: 40px;
+    height: 30px;
     border-radius: 15px;
     background: #BC1142;
 }

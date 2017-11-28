@@ -7,6 +7,7 @@ const cons = require('consolidate');
 const bodyParser = require('body-parser');
 
 const loginRoutes = require('./api/routes/loginRoute');
+const profilRoutes = require('./api/routes/profilRoute');
 const pageRouting = require('./api/routes/pageRouting');
 
 let app = express();
@@ -34,6 +35,7 @@ app.use(session({
 
 //Routes linked to the app
 loginRoutes(app);
+profilRoutes(app);
 pageRouting(app);
 
 //Home page

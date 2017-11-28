@@ -3,7 +3,6 @@ const _ = require('underscore');
 
 const db = require('../dbconnect/dbconnect');
 
-
 class loginModel {
     constructor(email, password) {
         this.email = email;
@@ -13,7 +12,6 @@ class loginModel {
     authentification(callback) {
         let dbconnect = new db();
 
-        console.log("Connected!");
         let sql = "SELECT * FROM user WHERE email=?";
         dbconnect.con.query(sql, [this.email], (err, results) => {
             if (err) {
@@ -23,7 +21,6 @@ class loginModel {
             }
             callback(null, results[0]);
         });
-
     }
 }
 

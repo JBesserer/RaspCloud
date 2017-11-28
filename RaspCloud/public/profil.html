@@ -19,12 +19,16 @@
     <div class="centerDiv">
         <h1>Mon profil</h1><br><br>
 
-        <form action="" method="post">
+        <form action="/profil" method="post">
             <label for="nom">Nom</label><br><input id="nom" name="nom" value="<<%= lastName %>>" type="text" size="50" required /><br><br><br>
             <label for="prenom">Prénom</label><br><input id="prenom" name="prenom" value="<<%= firstName %>>" type="text" size="50" required /><br><br><br>
             <label for="oldPassword">Mot de passe</label><br><input id="oldPassword" name="oldPassword" type="password" size="50" required /><br><br><br>
             <label for="newPassword">Nouveau mot de passe</label><br><input id="newPassword" name="newPassword" type="password" size="50" /><br><br><br>
-            <label for="newPasswordConfirmed">Confirmation du nouveau mot de passe</label><br><input id="newPasswordConfirmed" name="newPasswordConfirmed" type="password" size="50" /><br><br><br>
+            <label for="newPasswordConfirmed">Confirmation du nouveau mot de passe</label><br><input id="newPasswordConfirmed" name="newPasswordConfirmed" type="password" size="50" /><br>
+            <<% if (typeof(error) !== "undefined") { %>>
+            <br><span class="error"><<%=error%>></span><br>
+            <<%}%>>
+            <br>
             <button id="cancel" class="btnProfil" type="button" onclick="location.href='/dashboard'">Annuler</button>
             <button id="submit" class="btnProfil" type="submit">Enregistrer</button>
         </form>
