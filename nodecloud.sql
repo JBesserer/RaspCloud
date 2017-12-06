@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.4
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 27, 2017 at 02:48 PM
--- Server version: 5.7.14
--- PHP Version: 5.6.25
+-- Hôte : 127.0.0.1:3306
+-- Généré le :  mer. 06 déc. 2017 à 20:55
+-- Version du serveur :  5.7.19
+-- Version de PHP :  5.6.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -17,45 +19,43 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `nodecloud`
+-- Base de données :  `nodecloud`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `file`
+-- Structure de la table `file`
 --
 
-CREATE TABLE `file` (
-  `pk_file` int(11) NOT NULL,
+DROP TABLE IF EXISTS `file`;
+CREATE TABLE IF NOT EXISTS `file` (
+  `pk_file` int(11) NOT NULL AUTO_INCREMENT,
   `filepath` varchar(250) DEFAULT NULL,
   `date_create` date DEFAULT NULL,
   `date_update` date DEFAULT NULL,
   `date_delete` date DEFAULT NULL,
-  `fk_user` varchar(10) NOT NULL,
-  `shared_folder` int(10) NOT NULL DEFAULT '0'
+  `fk_user` int(10) NOT NULL,
+  `shared_folder` int(10) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`pk_file`),
+  KEY `fk_user` (`fk_user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `file`
---
-
-INSERT INTO `file` (`pk_file`, `filepath`, `date_create`, `date_update`, `date_delete`, `fk_user`, `shared_folder`) VALUES
-(17, '/public/uploads/FdT - Semaine 6.xlsx', '2017-11-27', NULL, NULL, '214asd', 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `type_user`
+-- Structure de la table `type_user`
 --
 
-CREATE TABLE `type_user` (
+DROP TABLE IF EXISTS `type_user`;
+CREATE TABLE IF NOT EXISTS `type_user` (
   `pk_type_user` int(11) NOT NULL,
-  `nom_type_user` varchar(25) NOT NULL
+  `nom_type_user` varchar(25) NOT NULL,
+  PRIMARY KEY (`pk_type_user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `type_user`
+-- Déchargement des données de la table `type_user`
 --
 
 INSERT INTO `type_user` (`pk_type_user`, `nom_type_user`) VALUES
@@ -65,73 +65,44 @@ INSERT INTO `type_user` (`pk_type_user`, `nom_type_user`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Structure de la table `user`
 --
 
-CREATE TABLE `user` (
-  `pk_user` varchar(10) NOT NULL,
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE IF NOT EXISTS `user` (
+  `pk_user` int(10) NOT NULL AUTO_INCREMENT,
   `email` varchar(25) DEFAULT NULL,
   `password` varchar(25) NOT NULL,
   `firstName` varchar(25) DEFAULT NULL,
   `lastName` varchar(25) DEFAULT NULL,
-  `fk_type_user` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `fk_type_user` int(11) NOT NULL,
+  PRIMARY KEY (`pk_user`),
+  KEY `fk_type_user` (`fk_type_user`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `user`
+-- Déchargement des données de la table `user`
 --
 
 INSERT INTO `user` (`pk_user`, `email`, `password`, `firstName`, `lastName`, `fk_type_user`) VALUES
-('214asd', 'jay@gmail.com', 'nodecloud123', 'Jeremy', 'Besserer-Lemay', 1);
+(1, 'jay@gmail.com', 'nodecloud123', 'Jeremy', 'Besserer-Lemay', 1);
 
 --
--- Indexes for dumped tables
---
-
---
--- Indexes for table `file`
---
-ALTER TABLE `file`
-  ADD PRIMARY KEY (`pk_file`),
-  ADD KEY `fk_user` (`fk_user`);
-
---
--- Indexes for table `type_user`
---
-ALTER TABLE `type_user`
-  ADD PRIMARY KEY (`pk_type_user`);
-
---
--- Indexes for table `user`
---
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`pk_user`),
-  ADD KEY `fk_type_user` (`fk_type_user`);
-
---
--- AUTO_INCREMENT for dumped tables
+-- Contraintes pour les tables déchargées
 --
 
 --
--- AUTO_INCREMENT for table `file`
---
-ALTER TABLE `file`
-  MODIFY `pk_file` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `file`
+-- Contraintes pour la table `file`
 --
 ALTER TABLE `file`
   ADD CONSTRAINT `file_ibfk_1` FOREIGN KEY (`fk_user`) REFERENCES `user` (`pk_user`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `user`
+-- Contraintes pour la table `user`
 --
 ALTER TABLE `user`
   ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`fk_type_user`) REFERENCES `type_user` (`pk_type_user`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

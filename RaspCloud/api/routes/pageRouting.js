@@ -13,7 +13,6 @@ module.exports = (app) => {
             res.render('header');
         }else{
             if(typeof(req.session.user.fk_type_user) !== 'undefined'){
-                console.log('type user is lit!');
                 res.render('header', { type_user: req.session.user.fk_type_user});
             }else{
                 res.render('header', { type_user: null});
@@ -42,7 +41,6 @@ module.exports = (app) => {
 
     app.route('/logout').get((req,res)=>{
         req.session.destroy();
-        console.log('Logging out...');
         res.redirect('/');
     });
 
@@ -50,6 +48,9 @@ module.exports = (app) => {
         if(!req.session.user){
             res.redirect('/');
         }else{
+            if (req.query.error !== null) {
+                res.render('adduser', { error: req.query.error});
+            }
             res.render('adduser');
         }
     });

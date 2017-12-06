@@ -9,7 +9,7 @@ exports.update = (req, res, next) => {
         return res.redirect('/profil?error=Les nouveaux mots de passe ne sont pas identiques');
     } else {
         let profil = new profilModel(req.session.user.pk_user, req.body.nom, req.body.prenom, req.body.newPassword);
-        profil.update((err, user) => {
+        profil.update((err) => {
             if (err) {
                 next(err);
                 return;
