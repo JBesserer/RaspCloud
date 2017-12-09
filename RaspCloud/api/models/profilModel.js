@@ -13,15 +13,15 @@ class profilModel {
 
     update(callback) {
         if (!this.newPassword) {
-            let sql = "UPDATE user SET lastName = '" + [this.nom] + "', firstName = '" + [this.prenom] + "' WHERE pk_user=?";
-            pool.query(sql, [this.pk], (err, results) => {
+            let sql = "UPDATE user SET lastName=?, firstName=? WHERE pk_user=?";
+            pool.query(sql, [this.nom, this.prenom, this.pk], (err, results) => {
                 if (err) {
                     return callback(new Error('Erreur en mettant à jour le profil.'));
                 }
             });
         } else {
-            let sql = "UPDATE user SET lastName = '" + [this.nom] + "', firstName = '" + [this.prenom] + "', password = '" + [this.newPassword] + "' WHERE pk_user=?";
-            pool.query(sql, [this.pk], (err, results) => {
+            let sql = "UPDATE user SET lastName=?, firstName=?, password=? WHERE pk_user=?";
+            pool.query(sql, [this.nom, this.prenom, this.newPassword, this.pk], (err, results) => {
                 if (err) {
                     return callback(new Error('Erreur en mettant à jour le profil.'));
                 }

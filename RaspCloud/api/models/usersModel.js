@@ -13,8 +13,8 @@ class usersModel {
     }
 
     add(callback) {
-        let sql = "INSERT INTO user (email, lastName, firstName, password, fk_type_user) VALUES ('" + [this.email] + "', '" + [this.nom] + "', '" + [this.prenom] + "', '" + [this.password] + "', '" + [this.statut] + "')";
-        pool.query(sql, (err, results) => {
+        let sql = "INSERT INTO user (email, lastName, firstName, password, fk_type_user) VALUES (?, ?, ?, ?, ?)";
+        pool.query(sql, [this.email, this.nom, this.prenom, this.password, this.statut], (err, results) => {
             if (err) {
                 return callback(new Error('Erreur en ajoutant un utilisateur.'));
             }
