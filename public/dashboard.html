@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/dropzone.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="/js/dropzone.js"></script>
+    <script>
+        /*let applyPaint = (buttonEl, paintData) => {
+            buttonEl.replaceWith(paintData);
+        };*/
+
+        let createButtonsForPainting = (paintingMetadata) => {
+            let _testTemplateString = `<div class="fileIcon col-sm-2 col-md-2 col-lg-2"><div class="dropdown"><button class="dropdown-toggle" type="button" data-toggle="dropdown"><img src="img/file_thumbnail.png" class="getMorePaint" data-fk_user="<%= id %>" data-filepath="<%= filepath %>" height="40" width="40"><span class="caret"></span></button><ul class='dropdown-menu dropdown-menu-right'><li><a href='#' class='downloadFile' >Download</a></li><li><a href='#' class='deleteFile'>Delete</a></li></ul></div></div>`;
+            let newDom = '';
+            let templateFn = _.template(_testTemplateString);
+            for(let i = 0; i< paintingMetadata.length; i++){
+                newDom += templateFn({id : paintingMetadata[i].pk_file, filepath : paintingMetadata[i].filepath});
+            }
+            $('div.currentFiles').html(newDom);
+            $(".downloadFile").click(function(){
+                let imageSource = $(this).parent().parent().siblings('button.dropdown-toggle').children('img.getMorePaint').data('filepath');
+
+                window.open('/download-file?filepath='+imageSource);
+            });
+            $(".deleteFile").click(function(){
+                let imageSourceID = $(this).parent().parent().siblings('button.dropdown-toggle').children('img.getMorePaint').data('fk_user');
+                let imageSourceFilePath = $(this).parent().parent().siblings('button.dropdown-toggle').children('img.getMorePaint').data('filepath');
+
+                if(confirm("Do you really want to delete this file?")){
+                    $.ajax({
+                        type : 'GET',
+                        url : '/delete-file?id='+imageSourceID+'&filepath='+imageSourceFilePath,
+                        success : (data) => {
+                            console.log('File Deleted! FRONT END');
+                            $.ajax({
+                                type : 'GET',
+                                url : '/load-files',
+                                success : (data) => {
+                                    createButtonsForPainting(data);
+                                },
+                                error : (trace) =>{
+                                    console.log(trace);
+                                }
+                            });
+
+                        },
+                        error : (trace) =>{
+                            console.log(trace);
+                        }
+                    });
+                }
+                else{
+                    return false;
+                }
+
+            });
+        };
+
+        $(document).ready(function() {
+            $.get("/header",function(data){
+                $( "#header" ).html( data );
+            });
+
+            $.ajax({
+                type : 'GET',
+                url : '/load-files',
+                success : (data) => {
+                    console.log("Worked");
+                    console.log(data);
+                    createButtonsForPainting(data);
+                },
+                error : (trace) =>{
+                    console.log("Didn't work");
+                }
+            });
+        });
+    </script>
+    <script>
+        // "myDropzone" is the camelized version of the HTML element's ID
+        Dropzone.options.myDropzone = {
+            paramName: "file", // The name that will be used to transfer the file
+            parallelUploads: 2,
+            addRemoveLinks: true,
+            thumbnailWidth: "45",
+            thumbnailHeight: "45",
+            dictCancelUpload: "Cancel",
+            autoProcessQueue: true,
+            init: function () {
+                this.on("success", function (file) {
+                    this.removeFile(file);
+                    $.ajax({
+                        type : 'GET',
+                        url : '/load-files',
+                        success : (data) => {
+                            createButtonsForPainting(data);
+                            location.reload();
+                        },
+                        error : (trace) =>{
+                            console.log(trace);
+                        }
+                    });
+                });
+            }
+        };
+    </script>
+</head>
+<body>
+    <div id="header"></div>
+    <p>DASHBOOOOOOAORRRRRRDDDD BOOOOOOIIIIIIISSSSSS. KNACK 2 BABEEEEEEHHHHH!</p>
+    <p>Welcome to the jam <<%= firstName %>> <<%= lastName %>> Type User:<<%= type_user%>></p>
+    <div class="currentFiles" style="background-color:dodgerblue;">
+
+    </div>
+    <div style="background-color:lightgray;" class="col-sm-12 col-md-12 col-lg-12">
+        <form action="/upload-file" method="post" class="dropzone dz-drag-hover" id="myDropzone" enctype="multipart/form-data">
+            <div class="fallback">
+                <input name="file" type="file" multiple />
+            </div>
+        </form>
+    </div>
+</body>
+</html>

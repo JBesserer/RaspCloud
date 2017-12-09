@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const loginRoutes = require('./api/routes/loginRoute');
 const pageRouting = require('./api/routes/pageRouting');
 const uploadRouting = require('./api/routes/uploadRoute');
+const downloadRouting = require('./api/routes/downloadRoute');
 
 let app = express();
 let port = process.env.PORT || 3000;
@@ -40,6 +41,7 @@ app.use(session({
 loginRoutes(app);
 pageRouting(app);
 uploadRouting(app);
+downloadRouting(app);
 
 //Home page
 app.get('/', (req, res) => {
