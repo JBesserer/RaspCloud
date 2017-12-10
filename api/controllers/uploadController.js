@@ -51,6 +51,18 @@ exports.get_files = (req, res, next) => {
     });
 };
 
+exports.get_shared_files = (req, res, next) => {
+    let getFiles = new uploadModel("",req.session.user.pk_user);
+
+    getFiles.getSharedFiles((err,results)=>{
+        if (err) {
+            next(err);
+            return;
+        }
+        res.json(results);
+    });
+};
+
 exports.delete_file = (req, res, next) => {
     let Model = new uploadModel(req.query.filepath,req.query.id); //In this specific situation, I'm cheating my own model by inserting the file id and NOT THE USER ID
 
@@ -79,6 +91,18 @@ exports.delete_file = (req, res, next) => {
                 res.end();
             });
         }
+    });
+};
+
+exports.share_file = (req, res, next) => {
+    let getFiles = new uploadModel("",req.query.id);
+
+    getFiles.shareFile((err,results)=>{
+        if (err) {
+            next(err);
+            return;
+        }
+        res.end();
     });
 };
 

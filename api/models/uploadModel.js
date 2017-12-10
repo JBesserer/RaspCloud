@@ -40,6 +40,20 @@ class loginModel {
         });
     }
 
+    getSharedFiles(callback) {
+
+        let sql = "SELECT * FROM file WHERE shared_folder=1";
+        pool.query(sql, [this.userID], (err, results, fields) => {
+            if (err) {
+                callback(new Error('Error while selecting shared files'));
+
+                return;
+            }
+
+            callback(null, results);
+        });
+    }
+
     //Get a specific file
     getFile(callback) {
 
@@ -66,6 +80,21 @@ class loginModel {
         pool.query(sql, [this.userID], (err, results, fields) => {
             if (err) {
                 callback(new Error('Error while deleting file number '+ this.userID));
+
+                return;
+            }
+
+            callback(null, results.affectedRows);
+        });
+    }
+
+    shareFile(callback){
+        let sql = "UPDATE file SET shared_folder = 1 WHERE pk_file=?";
+
+        //User ID is actually pk_file in this instance (Cheated my own system)
+        pool.query(sql, [this.userID], (err, results, fields) => {
+            if (err) {
+                callback(new Error('Error while sharing file number '+ this.userID));
 
                 return;
             }
