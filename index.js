@@ -11,6 +11,7 @@ const loginRoutes = require('./api/routes/loginRoute');
 const pageRouting = require('./api/routes/pageRouting');
 const profilRoutes = require('./api/routes/profilRoute');
 const uploadRouting = require('./api/routes/uploadRoute');
+const downloadRouting = require('./api/routes/downloadRoute');
 
 let app = express();
 let port = process.env.PORT || 3000;
@@ -44,6 +45,7 @@ loginRoutes(app);
 pageRouting(app);
 profilRoutes(app);
 uploadRouting(app);
+downloadRouting(app);
 
 //Home page
 app.get('/', (req, res) => {

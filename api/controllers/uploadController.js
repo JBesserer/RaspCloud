@@ -28,7 +28,6 @@ exports.upload_file = (req, res, next) => {
                 if (err) throw err;
                 let fileToUpload = new uploadModel(filepath,req.session.user.pk_user);
                 fileToUpload.upload((err, user) => {
-                    console.log('Reloading Files...');
                     if (err) {
                         next(err);
                         return;
@@ -39,3 +38,47 @@ exports.upload_file = (req, res, next) => {
         });
     });
 };
+
+exports.get_files = (req, res, next) => {
+    let getFiles = new uploadModel("",req.session.user.pk_user);
+
+    getFiles.getFilesUser((err,results)=>{
+        if (err) {
+            next(err);
+            return;
+        }
+        res.json(results);
+    });
+};
+
+exports.delete_file = (req, res, next) => {
+    let Model = new uploadModel(req.query.filepath,req.query.id); //In this specific situation, I'm cheating my own model by inserting the file id and NOT THE USER ID
+
+    Model.getFile((err,results)=>{
+        if (err) {
+            next(err);
+            return;
+        }
+        if(_.isEmpty(results)){
+            next(err);
+            return;
+        }else{
+            const dirUploads = path.dirname(require.main.filename)+results[0].filepath;
+            fs.unlink(dirUploads, function (err) {
+                if (err){
+                    next(err);
+                    return;
+                }
+                console.log('File deleted!');
+            });
+            Model.deleteFile((err,status)=>{
+                if (err) {
+                    next(err);
+                    return;
+                }
+                res.end();
+            });
+        }
+    });
+};
+
