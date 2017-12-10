@@ -1,9 +1,10 @@
 body {
     background-color: lightgray;
+    padding: 15px;
 }
 hr {
-    margin-left: -10px;
-    margin-right: -10px;
+    margin-left: -100px;
+    margin-right: -100px;
     border: 0;
     height: 2px;
     background: #333;
@@ -17,7 +18,6 @@ input {
 }
 .title {
     position: relative;
-    bottom: 10px;
     margin-left: 10px;
 }
 .admin button {
@@ -35,6 +35,7 @@ input {
     width: 100px;
     height: 30px;
     border-radius: 15px;
+    color: black;
     background: #75A928;
 }
 .disconnect button {
@@ -43,6 +44,7 @@ input {
     width: 100px;
     height: 30px;
     border-radius: 15px;
+    color: black;
     background: #BC1142;
 }
 .centerDiv {
@@ -58,6 +60,7 @@ input {
     width: 150px;
     height: 30px;
     border-radius: 4px;
+    color: black;
     background: #BC1142;
 }
 .btnProfil {
@@ -65,6 +68,7 @@ input {
     width: 150px;
     height: 30px;
     border-radius: 4px;
+    color: black;
     background: #BC1142;
 }
 .tableAdmin {
@@ -79,6 +83,7 @@ input {
     width: 150px;
     height: 30px;
     border-radius: 4px;
+    color: black;
     background: #BC1142;
 }
 
