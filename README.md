@@ -1,16 +1,7 @@
-# Exercices AJAX
+# NodeCloud
 
-Lien rapide vers cette page : https://goo.gl/vaDrbm
+This Project is a file server with sharing capabilities, drag-and-drop and user management. 
 
-- Si vous n'avez pas déjà un compte sur [Github.com](https://github.com), faites-en un :)
-- Si vous n'avez pas déjà Git d'installé, [installez-le](https://git-scm.com/downloads)
-- Si vous n'avez pas déjà Node.JS d'installé, [installez-le](https://nodejs.org/en/download/)
-- Dans une ligne de commande, positionnez-vous où vous voulez synchroniser l'exercice
-- Faire un `git clone https://github.com/ctaschereau/ajax_exercises.git`
-- `cd ajax_exercises`
-- `npm install` ceci installera toutes les dépendances (librairies) du projet
-- `npm start` ceci lancera la commande spécifiée dans le package.json servant à démarrer l'application
+This is a school project and is no way secure for production purposes. It also uses express-session which is not useful for production purposes because it tends to leak data.
 
-Le but de cet exercice est d'utiliser et de se pratiquer avec AJAX. 
-Les "réponses" se trouvent bien sûr dans l'historique Git, mais cet exercice est uniquement formatif, 
-donc personne ne gagne à tricher ;) 
+USE AT YOUR OWN RISKS.
