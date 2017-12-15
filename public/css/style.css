@@ -101,3 +101,11 @@ input {
 .metadataText{
     font-size: 10px;
 }
+
+.fileNameText{
+    font-size: 9px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 66px;
+}

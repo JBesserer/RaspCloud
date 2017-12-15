@@ -12,11 +12,14 @@
     <script src="/js/dropzone.js"></script>
     <script>
         let createButtonsForPainting = (paintingMetadata) => {
-            let _testTemplateString = `<div class="fileIcon"><div class="dropdown"><button class="dropdown-toggle" type="button" data-toggle="dropdown"><img src="img/file_thumbnail.png" class="getMorePaint" data-fk_user="<%= id %>" data-filepath="<%= filepath %>" height="40" width="40"><span class="caret"></span></button><p><%= fileName %></p><ul class='dropdown-menu dropdown-menu-center'><li><a href='#' class='downloadFile' >Download</a></li><li><a href='#' class='shareFile'>Share</a></li><li><a href='#' class='deleteFile'>Delete</a></li></ul></div></div>`;
+            let _testTemplateString = `<div class="fileIcon"><div class="dropdown"><button class="dropdown-toggle" type="button" data-toggle="dropdown"><img src="img/file_thumbnail.png" class="getMorePaint" data-fk_user="<%= id %>" data-filepath="<%= filepath %>" height="40" width="40"><span class="caret"></span></button><p class="fileNameText"><%= fileName %></p><ul class='dropdown-menu dropdown-menu-center'><li><a href='#' class='downloadFile' >Download</a></li><li><a href='#' class='shareFile'>Share</a></li><li><a href='#' class='deleteFile'>Delete</a></li></ul></div></div>`;
             let newDom = '';
             let templateFn = _.template(_testTemplateString);
             for(let i = 0; i< paintingMetadata.length; i++){
                 let fileName = paintingMetadata[i].filepath.replace("/public/uploads/","");
+                if(fileName.match(/^\d{13}[_]/)){
+                    fileName = fileName.replace(/^\d{13}[_]/, "");
+                }
                 newDom += templateFn({id : paintingMetadata[i].pk_file, filepath : paintingMetadata[i].filepath, fileName: fileName});
             }
             $('div.currentFiles').html(newDom);
@@ -108,11 +111,14 @@
         };
 
         let createButtonsForSharing = (sharedFolderMetadata) => {
-            let _testTemplateString = `<div class="fileIcon"><div class="dropdown"><button class="dropdown-toggle" type="button" data-toggle="dropdown"><img src="img/file_thumbnail.png" class="getMorePaint" data-fk_user="<%= id %>" data-filepath="<%= filepath %>" height="40" width="40"><span class="caret"></span></button><p><%= fileName %></p><ul class='dropdown-menu dropdown-menu-center'><li><a href='#' class='downloadFile' >Download</a></li><li><a href='#' class='unshareFile'>Unshare</a></li><li><a href='#' class='deleteFile'>Delete</a></li></ul></div></div>`;
+            let _testTemplateString = `<div class="fileIcon"><div class="dropdown"><button class="dropdown-toggle" type="button" data-toggle="dropdown"><img src="img/file_thumbnail.png" class="getMorePaint" data-fk_user="<%= id %>" data-filepath="<%= filepath %>" height="40" width="40"><span class="caret"></span></button><p class="fileNameText"><%= fileName %></p><ul class='dropdown-menu dropdown-menu-center'><li><a href='#' class='downloadFile' >Download</a></li><li><a href='#' class='unshareFile'>Unshare</a></li><li><a href='#' class='deleteFile'>Delete</a></li></ul></div></div>`;
             let newDom = '';
             let templateFn = _.template(_testTemplateString);
             for(let i = 0; i< sharedFolderMetadata.length; i++){
                 let fileName = sharedFolderMetadata[i].filepath.replace("/public/uploads/","");
+                if(fileName.match(/^\d{13}[_]/)){
+                    fileName = fileName.replace(/^\d{13}[_]/, "");
+                }
                 newDom += templateFn({id : sharedFolderMetadata[i].pk_file, filepath : sharedFolderMetadata[i].filepath, fileName: fileName});
             }
             $('div.sharedFiles').html(newDom);
