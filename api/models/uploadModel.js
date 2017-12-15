@@ -102,6 +102,21 @@ class loginModel {
             callback(null, results.affectedRows);
         });
     }
+
+    unshareFile(callback){
+        let sql = "UPDATE file SET shared_folder = 0 WHERE pk_file=?";
+
+        //User ID is actually pk_file in this instance (Cheated my own system)
+        pool.query(sql, [this.userID], (err, results, fields) => {
+            if (err) {
+                callback(new Error('Error while unsharing file number '+ this.userID));
+
+                return;
+            }
+
+            callback(null, results.affectedRows);
+        });
+    }
 }
 
 module.exports = loginModel;

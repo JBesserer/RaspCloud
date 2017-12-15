@@ -106,3 +106,32 @@ exports.share_file = (req, res, next) => {
     });
 };
 
+exports.unshare_file = (req, res, next) => {
+    let getFiles = new uploadModel("",req.query.id);
+
+    getFiles.unshareFile((err,results)=>{
+        if (err) {
+            next(err);
+            return;
+        }
+        res.end();
+    });
+};
+
+exports.get_file_metadata = (req, res, next) => {
+    let getFiles = new uploadModel("",req.query.id);
+
+    getFiles.getFile((err,results)=>{
+        if (err) {
+            next(err);
+            return;
+        }
+        const stats = fs.statSync(path.dirname(require.main.filename)+results[0].filepath);
+        const fileSizeInBytes = stats.size;
+        //Convert the file size to megabytes (optional)
+        const fileSizeInMegabytes = fileSizeInBytes / 1000000.0;
+        results[0].filesize = fileSizeInMegabytes;
+        res.json(results);
+    });
+};
+
