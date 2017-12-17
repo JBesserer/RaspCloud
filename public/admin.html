@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/material-dashboard.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/table.css">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.js"
+            integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
+
+    <script>
+
+        let table;
+        let createusers = (users) => {
+
+            let _testTemplateString = `<tr><td class="hidden"> <%= id %></td> <td> <%= nom %></td> <td> <%= prenom %> </td> <td><%= courriel %></td><td> <%= statut %></td></tr>`;
+            let newDom = '';
+            let templateFn = _.template(_testTemplateString);
+            for (let i = 0; i < users.length; i++) {
+                console.log(users[i]);
+                let typeUser;
+                if (users[i].fk_type_user === 1) {
+                    typeUser = "Admin";
+                } else {
+                    typeUser = "User";
+                }
+                newDom += templateFn({
+                    id: users[i].pk_user,
+                    nom: users[i].lastName,
+                    prenom: users[i].firstName,
+                    courriel: users[i].email,
+                    statut: typeUser
+                });
+            }
+            $('#example tbody').html(newDom);
+            table = $('#example').DataTable();
+        };
+
+        $(document).ready(function () {
+
+
+
+            $.get("/header", function (data) {
+                $("#header").html(data);
+            });
+
+            $.get("/getAllUsers", function (data) {
+                console.log(data);
+                createusers(data);
+            });
+
+
+            //modifie les styles pour la sélection de rangée
+            $('#example tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                } else {
+                    table.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                }
+            });
+
+
+            //clic ajouter
+            $('#Ajouter').click(function () {
+                window.location.href = "http://localhost/app/app/views/addReservationadmin.php";
+            });
+
+            //clic modifier, envoie en get le id selectionné
+            $('#Modifier').click(function () {
+
+                if ($('#example tr.selected td:first').length > 0) {
+                    var idcont = $('#example tr.selected td:first').html();
+                    window.location.href = "http://localhost/app/app/views/updateReservationadmin.php?id=" + idcont + "";
+                }else{
+                    alert("Vous devez sélectionner un user");
+                }
+            });
+
+        });
+
+
+    </script>
+</head>
+<body>
+<div id="header"></div>
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header" data-background-color="rasp">
+                        <h4 class="title">Utilisateurs</h4>
+                        <p class="category">Sélectionnez un utilisateur avant de choisir une action</p>
+                    </div>
+                    <div class="card-content table-responsive">
+                        <table class="table" id="example">
+                            <thead class="text-primary">
+                            <th class="hidden">ID</th>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Courriel</th>
+                            <th>Statut</th>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="margin-button2">
+                    <button id="adduser" class="btnTableau" type="button" style="margin-left: 10%;"
+                            onclick="location.href='/adduser'">Ajouter
+                    </button>
+                    <button id="modifyuser" class="btnTableau" type="button">Modifier</button>
+                    <button id="deleteuser" class="btnTableau" type="button">Supprimer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
+</body>
+</html>

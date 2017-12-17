@@ -1,0 +1,90 @@
+body {
+    background-color: lightgray;
+}
+hr {
+    margin-left: -10px;
+    margin-right: -10px;
+    border: 0;
+    height: 2px;
+    background: #333;
+}
+label {
+    margin-left: -10px;
+    font-size: 11pt;
+}
+input {
+    height: 20px;
+}
+.title {
+    position: relative;
+    bottom: 15px;
+    margin-left: 10px;
+}
+.admin button {
+    margin-top: 5px;
+    float: right;
+    width: 100px;
+    height: 40px;
+    border-radius: 15px;
+    color: white;
+    background: black;
+}
+.user button {
+    margin-top: 5px;
+    float: right;
+    width: 100px;
+    height: 40px;
+    border-radius: 15px;
+    background: #75A928;
+}
+.disconnect button {
+    margin-top: 5px;
+    float: right;
+    width: 100px;
+    height: 40px;
+    border-radius: 15px;
+    background: #BC1142;
+}
+.centerDiv {
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+}
+.error {
+    color: darkred;
+}
+.btnLogin {
+    margin-left: 110px;
+    width: 150px;
+    height: 30px;
+    border-radius: 4px;
+    background: #BC1142;
+}
+.btnProfil {
+    margin-left: 25px;
+    width: 150px;
+    height: 30px;
+    border-radius: 4px;
+    background: #BC1142;
+}
+.tableAdmin {
+    width: 80%;
+}
+ table, th, td {
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+    padding: 15px;
+}
+.btnAdmin {
+    width: 150px;
+    height: 30px;
+    border-radius: 4px;
+    background: #BC1142;
+}
+
+.btnTableau {
+    width: 150px;
+    height: 30px;
+    border-radius: 4px;
+    background: #ff1457;
+}

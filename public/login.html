@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Connexion</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
+    <script>
+        $(document).ready(function() {
+            $.get("/header", function(data) {
+                $("#header").html(data);
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="header"></div>
+
+    <div id="personDiv" class="centerDiv">
+        <img width="10%" height="10%" src="img/logo.png" /><br><br>
+        <form action="/login" method="post">
+            <label for="email">Courriel</label><br><input id="email" name="email" type="text" size="50" required /><br><br>
+            <label for="password">Mot de passe</label><br><input id="password" name="password" type="password" size="50" required /><br><br>
+            <<% if (typeof(error) !== "undefined") { %>>
+            <span class="error"><<%=error%>></span><br>
+            <<%}%>>
+            <br>
+            <button id="submit" class="btnLogin" type="submit">Connexion</button>
+        </form>
+    </div>
+</body>
+</html>

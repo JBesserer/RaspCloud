@@ -1,0 +1,10 @@
+<img width="2%" height="2%" src="img/logo.png" />
+<span class="title"><strong>NodeCloud</strong></span>
+<<% if (typeof(type_user) !== "undefined") { %>>
+    <span class="disconnect"><button type="button" onclick="location.href='/logout'">Déconnexion</button></span>
+    <span class="user"><button type="button" onclick="location.href='/profil'">Profil</button></span>
+    <<% if (type_user == 1) { %>>
+        <span class="admin"><button type="button" onclick="location.href='/admin'">Admin</button></span>
+    <<%}%>>
+<<%}%>>
+<hr>
