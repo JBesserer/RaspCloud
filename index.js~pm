@@ -6,13 +6,10 @@ const session = require('express-session');
 const cons = require('consolidate');
 const bodyParser = require('body-parser');
 
-const adduserRoute = require('./api/routes/adduserRoute');
-const userRoute = require('./api/routes/userRoute');
 const loginRoutes = require('./api/routes/loginRoute');
 const pageRouting = require('./api/routes/pageRouting');
-const profilRoutes = require('./api/routes/profilRoute');
 const uploadRouting = require('./api/routes/uploadRoute');
-const downloadRouting = require('./api/routes/downloadRoute');
+const userRouting = require('./api/routes/userRoute');
 
 let app = express();
 let port = process.env.PORT || 3000;
@@ -41,17 +38,25 @@ app.use(session({
 }));
 
 //Routes linked to the app
-adduserRoute(app);
-userRoute(app);
 loginRoutes(app);
 pageRouting(app);
-profilRoutes(app);
 uploadRouting(app);
-downloadRouting(app);
+userRouting(app);
 
 //Home page
 app.get('/', (req, res) => {
 	res.render('login');
+});
+
+// Error handling
+app.use((err, req, res, next) => {
+	console.error(err.stack);
+	if (req.xhr) {
+		res.status(500).send({ error: err.message });
+	}else{
+		console.log('ERROR!');
+	}
+
 });
 
 // Static files

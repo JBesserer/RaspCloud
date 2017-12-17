@@ -5,6 +5,7 @@ body {
 hr {
     margin-left: -100px;
     margin-right: -100px;
+
     border: 0;
     height: 2px;
     background: #333;
@@ -108,4 +109,12 @@ input {
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 66px;
+    background: #BC1142;
+}
+
+.btnTableau {
+    width: 150px;
+    height: 30px;
+    border-radius: 4px;
+    background: #ff1457;
 }
