@@ -36,6 +36,7 @@ module.exports = (app) => {
                 res.render('profil', { firstName: req.session.user.firstName, lastName: req.session.user.lastName, type_user: req.session.user.fk_type_user, error: req.query.error});
             }
             res.render('profil', { firstName: req.session.user.firstName, lastName: req.session.user.lastName, type_user: req.session.user.fk_type_user});
+
         }
     });
 

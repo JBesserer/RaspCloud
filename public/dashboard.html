@@ -12,14 +12,31 @@
     <script src="/js/dropzone.js"></script>
     <script>
         let createButtonsForPainting = (paintingMetadata) => {
-            let _testTemplateString = `<div class="fileIcon"><div class="dropdown"><button class="dropdown-toggle" type="button" data-toggle="dropdown"><img src="img/file_thumbnail.png" class="getMorePaint" data-fk_user="<%= id %>" data-filepath="<%= filepath %>" height="40" width="40"><span class="caret"></span></button><p><%= fileName %></p><ul class='dropdown-menu dropdown-menu-center'><li><a href='#' class='downloadFile' >Download</a></li><li><a href='#' class='shareFile'>Share</a></li><li><a href='#' class='deleteFile'>Delete</a></li></ul></div></div>`;
+            let _testTemplateString = `<div class="fileIcon"><div class="dropdown"><button class="dropdown-toggle" type="button" data-toggle="dropdown"><img src="img/file_thumbnail.png" class="getMorePaint" data-fk_user="<%= id %>" data-filepath="<%= filepath %>" height="40" width="40"><span class="caret"></span></button><p class="fileNameText"><%= fileName %></p><ul class='dropdown-menu dropdown-menu-center'><li><a href='#' class='downloadFile' >Download</a></li><li><a href='#' class='shareFile'>Share</a></li><li><a href='#' class='deleteFile'>Delete</a></li></ul></div></div>`;
             let newDom = '';
             let templateFn = _.template(_testTemplateString);
             for(let i = 0; i< paintingMetadata.length; i++){
                 let fileName = paintingMetadata[i].filepath.replace("/public/uploads/","");
+                if(fileName.match(/^\d{13}[_]/)){
+                    fileName = fileName.replace(/^\d{13}[_]/, "");
+                }
                 newDom += templateFn({id : paintingMetadata[i].pk_file, filepath : paintingMetadata[i].filepath, fileName: fileName});
             }
             $('div.currentFiles').html(newDom);
+
+            $(".dropdown-toggle").click(function(){
+                let imageSource = $(this).children('img.getMorePaint').data('fk_user');
+                $.ajax({
+                    type : 'GET',
+                    url : '/file-metadata?id='+imageSource,
+                    success : (data) => {
+                        createMetadataForSelectedFile(data);
+                    },
+                    error : (trace) =>{
+                        console.log(trace);
+                    }
+                });
+            });
             $(".downloadFile").click(function(){
                 let imageSource = $(this).parent().parent().siblings('button.dropdown-toggle').children('img.getMorePaint').data('filepath');
 
@@ -94,18 +111,60 @@
         };
 
         let createButtonsForSharing = (sharedFolderMetadata) => {
-            let _testTemplateString = `<div class="fileIcon"><div class="dropdown"><button class="dropdown-toggle" type="button" data-toggle="dropdown"><img src="img/file_thumbnail.png" class="getMorePaint" data-fk_user="<%= id %>" data-filepath="<%= filepath %>" height="40" width="40"><span class="caret"></span></button><p><%= fileName %></p><ul class='dropdown-menu dropdown-menu-center'><li><a href='#' class='downloadFile' >Download</a></li><li><a href='#' class='deleteFile'>Delete</a></li></ul></div></div>`;
+            let _testTemplateString = `<div class="fileIcon"><div class="dropdown"><button class="dropdown-toggle" type="button" data-toggle="dropdown"><img src="img/file_thumbnail.png" class="getMorePaint" data-fk_user="<%= id %>" data-filepath="<%= filepath %>" height="40" width="40"><span class="caret"></span></button><p class="fileNameText"><%= fileName %></p><ul class='dropdown-menu dropdown-menu-center'><li><a href='#' class='downloadFile' >Download</a></li><li><a href='#' class='unshareFile'>Unshare</a></li><li><a href='#' class='deleteFile'>Delete</a></li></ul></div></div>`;
             let newDom = '';
             let templateFn = _.template(_testTemplateString);
             for(let i = 0; i< sharedFolderMetadata.length; i++){
                 let fileName = sharedFolderMetadata[i].filepath.replace("/public/uploads/","");
+                if(fileName.match(/^\d{13}[_]/)){
+                    fileName = fileName.replace(/^\d{13}[_]/, "");
+                }
                 newDom += templateFn({id : sharedFolderMetadata[i].pk_file, filepath : sharedFolderMetadata[i].filepath, fileName: fileName});
             }
             $('div.sharedFiles').html(newDom);
+
+            $(".dropdown-toggle").click(function(){
+                let imageSource = $(this).children('img.getMorePaint').data('fk_user');
+                $.ajax({
+                    type : 'GET',
+                    url : '/file-metadata?id='+imageSource,
+                    success : (data) => {
+                        createMetadataForSelectedFile(data);
+                    },
+                    error : (trace) =>{
+                        console.log(trace);
+                    }
+                });
+            });
+
             $(".downloadFile").click(function(){
                 let imageSource = $(this).parent().parent().siblings('button.dropdown-toggle').children('img.getMorePaint').data('filepath');
 
                 window.open('/download-file?filepath='+imageSource);
+            });
+
+            $(".unshareFile").click(function(){
+                let imageSource = $(this).parent().parent().siblings('button.dropdown-toggle').children('img.getMorePaint').data('fk_user');
+
+                $.ajax({
+                    type : 'GET',
+                    url : '/unshare-file?id='+imageSource,
+                    success : (data) => {
+                        $.ajax({
+                            type : 'GET',
+                            url : '/load-shared-files',
+                            success : (data) => {
+                                createButtonsForSharing(data);
+                            },
+                            error : (trace) =>{
+                                console.log(trace);
+                            }
+                        });
+                    },
+                    error : (trace) =>{
+                        console.log(trace);
+                    }
+                });
             });
             $(".deleteFile").click(function(){
                 let imageSourceID = $(this).parent().parent().siblings('button.dropdown-toggle').children('img.getMorePaint').data('fk_user');
@@ -150,6 +209,26 @@
 
             });
 
+        };
+
+        let createMetadataForSelectedFile = (FileMetadata) => {
+            let _testTemplateString = `<div class="metadataText"><p>Filename: <%= fileName %></p> <p>File size: <%= fileSize %> MB</p> <p>Date created: <%= dateCreate %></p><p>Shared: <%= isShared %></p></div>`;
+            let newDom = '';
+            let templateFn = _.template(_testTemplateString);
+            for(let i = 0; i< FileMetadata.length; i++){
+                console.log(FileMetadata[i]);
+                let fileName = FileMetadata[i].filepath.replace("/public/uploads/","");
+                let shared;
+                let creationDate = FileMetadata[i].date_create;
+                creationDate = creationDate.toString('yyyy-MM-dd');
+                if(FileMetadata[i].shared_folder === 1){
+                    shared = "yes";
+                }else{
+                    shared = "no";
+                }
+                newDom += templateFn({fileName: fileName, fileSize: FileMetadata[i].filesize, dateCreate: creationDate, isShared: shared});
+            }
+            $('div.selectedFileMetadata').html(newDom);
         };
 
 
@@ -208,6 +287,7 @@
                             console.log(trace);
                         }
                     });
+
                 });
             }
         };
@@ -216,22 +296,31 @@
 <body>
     <div id="header"></div>
     <p>Welcome to NodeCloud <<%= firstName %>> <<%= lastName %>></p>
-    <div class="pull-right col-sm-12 col-md-12 col-lg-12">
-        <hr><p>My files</p>
-    </div>
-    <div class="currentFiles"></div>
+    <div class="col-sm-9 col-md-9 col-lg-9">
+        <div class="pull-left col-sm-12 col-md-12 col-lg-12">
+            <hr class="col-sm-12 col-md-12 col-lg-12"><p class="col-sm-12 col-md-12 col-lg-12">My files</p>
+            <div class="currentFiles"></div>
+        </div>
 
-    <div class="pull-right col-sm-12 col-md-12 col-lg-12">
-        <hr><p>Shared files</p>
-    </div>
-    <div class="sharedFiles"></div>
 
-    <div style="background-color:lightgray;" class="col-sm-12 col-md-12 col-lg-12">
-        <form action="/upload-file" method="post" class="dropzone dz-drag-hover" id="myDropzone" enctype="multipart/form-data">
-            <div class="fallback">
-                <input name="file" type="file" multiple />
-            </div>
-        </form>
+        <div class="pull-left col-sm-12 col-md-12 col-lg-12">
+            <hr class="col-sm-12 col-md-12 col-lg-12"><p class="col-sm-12 col-md-12 col-lg-12">Shared files</p>
+            <div class="sharedFiles"></div>
+        </div>
+
+
+        <div style="background-color:lightgray;" class="col-sm-12 col-md-12 col-lg-12">
+            <form action="/upload-file" method="post" class="dropzone dz-drag-hover" id="myDropzone" enctype="multipart/form-data">
+                <div class="fallback">
+                    <input name="file" type="file" multiple />
+                </div>
+            </form>
+        </div>
     </div>
+    <div class="metadataClass col-sm-3 col-md-3 col-lg-3">
+        <p>Metadata for selected file</p>
+        <div class="selectedFileMetadata"></div>
+    </div>
+
 </body>
 </html>
