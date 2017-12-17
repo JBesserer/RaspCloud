@@ -13,6 +13,16 @@
             $.get("/header", function(data) {
                 $("#header").html(data);
             });
+
+            $("#modifyuser").click(function(){
+                location.href = "/updateuser";
+            });
+
+            $("#deleteuser").click(function(){
+                if (confirm("Êtes-vous sur de vouloir supprimer cet utilisateur ? Cela supprimera aussi tous ses fichiers !") == true) {
+                    location.href = "/deleteuser";
+                }
+            });
         });
     </script>
 </head>
@@ -38,8 +48,10 @@
         </tr>
     </table>
 </div><br>
-    <button id="adduser" class="btnAdmin" type="button" style="margin-left: 10%;" onclick="location.href='/adduser'">Ajouter</button>
-    <button id="modifyuser" class="btnAdmin" type="button">Modifier</button>
-    <button id="deleteuser" class="btnAdmin" type="button">Supprimer</button>
+        <button id="adduser" class="btnAdmin" type="button" style="margin-left: 10%;" onclick="location.href='/adduser'">Ajouter</button>
+        <button id="modifyuser" class="btnAdmin" type="submit">Modifier</button>
+    <form action="/deleteuser" class="adminForm" method="post">
+        <button id="deleteuser" class="btnAdmin" type="submit">Supprimer</button>
+    </form>
 </body>
 </html>

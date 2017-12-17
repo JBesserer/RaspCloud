@@ -54,4 +54,15 @@ module.exports = (app) => {
             res.render('adduser');
         }
     });
+
+    app.route('/updateuser').get((req,res)=>{
+        if(!req.session.user){
+            res.redirect('/');
+        }else{
+            if (req.query.error !== null) {
+                res.render('updateuser', { error: req.query.error});
+            }
+            res.render('updateuser');
+        }
+    });
 };
