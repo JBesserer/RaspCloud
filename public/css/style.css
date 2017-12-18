@@ -17,9 +17,15 @@ label {
 input {
     height: 20px;
 }
+input[type="radio"] {
+    margin-left: 15px;
+}
 .title {
     position: relative;
     margin-left: 10px;
+}
+.adminForm {
+    display: inline;
 }
 .admin button {
     margin-top: 5px;

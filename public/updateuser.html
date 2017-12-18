@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifier un utilisateur</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/dropzone.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
+    <script>
+        $(document).ready(function() {
+            $.get("/header", function(data) {
+                $("#header").html(data);
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="header"></div>
+    <div class="centerDiv">
+        <h1>Modifier un utilisateur</h1><br><br>
+
+        <form action="/updateuser?pk_user=<<%= pk_user %>>" method="post">
+            <label for="email">Courriel</label><br><input id="email" name="email" value="<<%= courriel %>>" type="text" size="50" required /><br><br><br>
+            <label for="nom">Nom</label><br><input id="nom" name="nom" value="<<%= nom %>>" type="text" size="50" required /><br><br><br>
+            <label for="prenom">Prénom</label><br><input id="prenom" name="prenom" value="<<%= prenom %>>" type="text" size="50" required /><br><br><br>
+            <label for="password">Mot de passe</label><br><input id="password" name="password" type="password" size="50" /><br><br><br>
+            <label for="passwordConfirmed">Confirmation du mot de passe</label><br><input id="passwordConfirmed" name="passwordConfirmed" type="password" size="50" /><br><br>
+            <<% if (statut == 1) { %>>
+            <input type="radio" name="statut" value="2">Utilisateur
+            <input type="radio" name="statut" value="1" checked>Administrateur<br>
+            <<%} else { %>>
+            <input type="radio" name="statut" value="2" checked>Utilisateur
+            <input type="radio" name="statut" value="1">Administrateur<br>
+            <<%}%>>
+            <<% if (typeof(error) !== "undefined") { %>>
+            <br><span class="error"><<%=error%>></span><br>
+            <<%}%>>
+            <br>
+            <button id="cancel" class="btnProfil" type="button" onclick="location.href='/admin'">Annuler</button>
+            <button id="submit" class="btnProfil" type="submit">Enregistrer</button>
+        </form>
+    </div>
+</body>
+</html>

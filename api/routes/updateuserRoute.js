@@ -1,5 +1,5 @@
 'use strict';
 module.exports = (app) => {
     let usersController = require('../controllers/usersController');
-    app.route('/getAllUsers').get(usersController.getAllUsers);
+    app.route('/updateuser').post(usersController.update);
 };

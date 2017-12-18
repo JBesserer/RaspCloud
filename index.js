@@ -7,6 +7,8 @@ const cons = require('consolidate');
 const bodyParser = require('body-parser');
 
 const adduserRoute = require('./api/routes/adduserRoute');
+const updateuserRoute = require('./api/routes/updateuserRoute');
+const deleteuserRoute = require('./api/routes/deleteuserRoute');
 const userRoute = require('./api/routes/userRoute');
 const loginRoutes = require('./api/routes/loginRoute');
 const pageRouting = require('./api/routes/pageRouting');
@@ -33,7 +35,6 @@ _.templateSettings = {
 
 app.use(express.static('public'));
 
-
 app.use(session({
     secret:"fajdgdoiajt894ay492",
     resave: false,
@@ -42,6 +43,8 @@ app.use(session({
 
 //Routes linked to the app
 adduserRoute(app);
+updateuserRoute(app);
+deleteuserRoute(app);
 userRoute(app);
 loginRoutes(app);
 pageRouting(app);
@@ -58,5 +61,3 @@ app.get('/', (req, res) => {
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.listen(port);
-
-console.log('RaspCloud server started on: ' + port);

@@ -4,7 +4,8 @@ const _ = require('underscore');
 const pool = require('../dbconnect/dbconnect');
 
 class usersModel {
-    constructor(email, nom, prenom, password, statut) {
+    constructor(pk_user, email, nom, prenom, password, statut) {
+        this.pk_user = pk_user;
         this.email = email;
         this.nom = nom;
         this.prenom = prenom;
@@ -12,11 +13,50 @@ class usersModel {
         this.statut = statut;
     }
 
+    getAllUsers(callback) {
+        let sql = "SELECT * FROM user";
+        pool.query(sql, (err, results) => {
+            if (err) {
+                return callback(new Error('Erreur en affichant les utilisateurs'));
+            }
+            callback(null, results);
+        });
+    }
+
     add(callback) {
         let sql = "INSERT INTO user (email, lastName, firstName, password, fk_type_user) VALUES (?, ?, ?, ?, ?)";
         pool.query(sql, [this.email, this.nom, this.prenom, this.password, this.statut], (err, results) => {
             if (err) {
                 return callback(new Error('Erreur en ajoutant un utilisateur.'));
+            }
+        });
+        callback();
+    }
+
+    update(callback) {
+        if (!this.password) {
+            let sql = "UPDATE user SET email=?, lastName=?, firstName=?, fk_type_user=? WHERE pk_user=?";
+            pool.query(sql, [this.email, this.nom, this.prenom, this.statut, this.pk_user], (err, results) => {
+                if (err) {
+                    return callback(new Error('Erreur en modifiant un utilisateur.'));
+                }
+            });
+        } else {
+            let sql = "UPDATE user SET email=?, lastName=?, firstName=?, password=?, fk_type_user=? WHERE pk_user=?";
+            pool.query(sql, [this.email, this.nom, this.prenom, this.password, this.statut, this.pk_user], (err, results) => {
+                if (err) {
+                    return callback(new Error('Erreur en modifiant un utilisateur.'));
+                }
+            });
+        }
+        callback();
+    }
+
+    delete(callback) {
+        let sql = "DELETE FROM user WHERE pk_user=?";
+        pool.query(sql, this.pk_user, (err, results) => {
+            if (err) {
+                return callback(new Error('Erreur en supprimant un utilisateur.'));
             }
         });
         callback();

@@ -4,7 +4,7 @@ const _ = require('underscore');
 const pool = require('../dbconnect/dbconnect');
 
 
-class loginModel {
+class uploadModel {
     constructor(filepath, userID) {
         this.filepath = filepath;
         this.userID = userID;
@@ -119,4 +119,4 @@ class loginModel {
     }
 }
 
-module.exports = loginModel;
+module.exports = uploadModel;

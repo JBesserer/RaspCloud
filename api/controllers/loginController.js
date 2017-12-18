@@ -18,6 +18,7 @@ exports.get_login = (req, res, next) => {
                 res.redirect('/dashboard');
                 next();
             } else {
+                res.render('login', {error: 'Courriel ou mot de passe invalide !'});
             }
         }
     });
