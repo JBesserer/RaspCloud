@@ -34,6 +34,7 @@ module.exports = (app) => {
         }else{
             if (req.query.error !== null) {
                 res.render('profil', { firstName: req.session.user.firstName, lastName: req.session.user.lastName, type_user: req.session.user.fk_type_user, error: req.query.error});
+                return;
             }
             res.render('profil', { firstName: req.session.user.firstName, lastName: req.session.user.lastName, type_user: req.session.user.fk_type_user});
 
