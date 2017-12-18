@@ -1,5 +1,5 @@
 'use strict';
 module.exports = (app) => {
     let usersController = require('../controllers/usersController');
-    app.route('/deleteuser').post(usersController.delete);
+    app.route('/deleteuser').get(usersController.delete);
 };

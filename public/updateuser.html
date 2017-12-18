@@ -21,14 +21,19 @@
     <div class="centerDiv">
         <h1>Modifier un utilisateur</h1><br><br>
 
-        <form action="/updateuser" method="post">
-            <label for="email">Courriel</label><br><input id="email" name="email" type="text" size="50" required /><br><br><br>
-            <label for="nom">Nom</label><br><input id="nom" name="nom" type="text" size="50" required /><br><br><br>
-            <label for="prenom">Prénom</label><br><input id="prenom" name="prenom" type="text" size="50" required /><br><br><br>
+        <form action="/updateuser?pk_user=<<%= pk_user %>>" method="post">
+            <label for="email">Courriel</label><br><input id="email" name="email" value="<<%= courriel %>>" type="text" size="50" required /><br><br><br>
+            <label for="nom">Nom</label><br><input id="nom" name="nom" value="<<%= nom %>>" type="text" size="50" required /><br><br><br>
+            <label for="prenom">Prénom</label><br><input id="prenom" name="prenom" value="<<%= prenom %>>" type="text" size="50" required /><br><br><br>
             <label for="password">Mot de passe</label><br><input id="password" name="password" type="password" size="50" /><br><br><br>
             <label for="passwordConfirmed">Confirmation du mot de passe</label><br><input id="passwordConfirmed" name="passwordConfirmed" type="password" size="50" /><br><br>
-            <input type="radio" name="statut" value="2" required>Utilisateur
-            <input type="radio" name="statut" value="1" required>Administrateur<br>
+            <<% if (statut == 1) { %>>
+            <input type="radio" name="statut" value="2">Utilisateur
+            <input type="radio" name="statut" value="1" checked>Administrateur<br>
+            <<%} else { %>>
+            <input type="radio" name="statut" value="2" checked>Utilisateur
+            <input type="radio" name="statut" value="1">Administrateur<br>
+            <<%}%>>
             <<% if (typeof(error) !== "undefined") { %>>
             <br><span class="error"><<%=error%>></span><br>
             <<%}%>>

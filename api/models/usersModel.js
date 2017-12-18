@@ -13,6 +13,16 @@ class usersModel {
         this.statut = statut;
     }
 
+    getAllUsers(callback) {
+        let sql = "SELECT * FROM user";
+        pool.query(sql, (err, results) => {
+            if (err) {
+                return callback(new Error('Erreur en affichant les utilisateurs'));
+            }
+            callback(null, results);
+        });
+    }
+
     add(callback) {
         let sql = "INSERT INTO user (email, lastName, firstName, password, fk_type_user) VALUES (?, ?, ?, ?, ?)";
         pool.query(sql, [this.email, this.nom, this.prenom, this.password, this.statut], (err, results) => {

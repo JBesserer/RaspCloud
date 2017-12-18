@@ -35,7 +35,6 @@ _.templateSettings = {
 
 app.use(express.static('public'));
 
-
 app.use(session({
     secret:"fajdgdoiajt894ay492",
     resave: false,

@@ -2,7 +2,6 @@ const os = require('os');
 const _ = require('underscore');
 
 const pool = require('../dbconnect/dbconnect');
-const pool  = require('../dbconnect/dbconnect');
 
 class loginModel {
     constructor(email, password) {
